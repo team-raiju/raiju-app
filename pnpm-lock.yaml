@@ -16,6 +16,7 @@ specifiers:
   '@angular/platform-browser': ^14.0.0
   '@angular/platform-browser-dynamic': ^14.0.0
   '@angular/router': ^14.0.0
+  '@capacitor/android': 3.6.0
   '@capacitor/app': 1.1.1
   '@capacitor/cli': 3.6.0
   '@capacitor/core': 3.6.0
@@ -30,9 +31,11 @@ specifiers:
   '@typescript-eslint/eslint-plugin': 5.3.0
   '@typescript-eslint/parser': 5.3.0
   eslint: ^7.6.0
+  eslint-config-prettier: ^8.5.0
   eslint-plugin-import: 2.22.1
   eslint-plugin-jsdoc: 30.7.6
   eslint-plugin-prefer-arrow: 1.2.2
+  ionicons: ^6.0.2
   jasmine-core: ~3.8.0
   jasmine-spec-reporter: ~5.0.0
   karma: ~6.3.2
@@ -41,6 +44,7 @@ specifiers:
   karma-coverage-istanbul-reporter: ~3.0.2
   karma-jasmine: ~4.0.0
   karma-jasmine-html-reporter: ^1.5.0
+  prettier: ^2.7.1
   protractor: ~7.0.0
   rxjs: ~6.6.0
   ts-node: ~8.3.0
@@ -55,12 +59,14 @@ dependencies:
   '@angular/platform-browser': 14.0.2_4xzom54nug4zsagb4nvasqqt2y
   '@angular/platform-browser-dynamic': 14.0.2_tau75ce5dlmxq7ly7n7tecfxhy
   '@angular/router': 14.0.2_3kgrst2fkrlbtrw3dpij4prxju
+  '@capacitor/android': 3.6.0_@capacitor+core@3.6.0
   '@capacitor/app': 1.1.1_@capacitor+core@3.6.0
   '@capacitor/core': 3.6.0
   '@capacitor/haptics': 1.1.4_@capacitor+core@3.6.0
   '@capacitor/keyboard': 1.2.3_@capacitor+core@3.6.0
   '@capacitor/status-bar': 1.0.8_@capacitor+core@3.6.0
   '@ionic/angular': 6.1.10_pzxc2q2icgvvyuc2u637vhf5wu
+  ionicons: 6.0.2
   rxjs: 6.6.7
   tslib: 2.4.0
   zone.js: 0.11.6
@@ -83,6 +89,7 @@ devDependencies:
   '@typescript-eslint/eslint-plugin': 5.3.0_nf6lvtycu6z6eifo6da4xzybyy
   '@typescript-eslint/parser': 5.3.0_hxadhbs2xogijvk7vq4t2azzbu
   eslint: 7.32.0
+  eslint-config-prettier: 8.5.0_eslint@7.32.0
   eslint-plugin-import: 2.22.1_u27ca6k675humrg6ovkxv22o44
   eslint-plugin-jsdoc: 30.7.6_eslint@7.32.0
   eslint-plugin-prefer-arrow: 1.2.2_eslint@7.32.0
@@ -94,6 +101,7 @@ devDependencies:
   karma-coverage-istanbul-reporter: 3.0.3
   karma-jasmine: 4.0.2_karma@6.3.20
   karma-jasmine-html-reporter: 1.7.0_cfcqki7jg52pqpepmgi37diege
+  prettier: 2.7.1
   protractor: 7.0.0
   ts-node: 8.3.0_typescript@4.7.4
   typescript: 4.7.4
@@ -1740,6 +1748,14 @@ packages:
       '@babel/helper-validator-identifier': 7.16.7
       to-fast-properties: 2.0.0
     dev: true
+
+  /@capacitor/android/3.6.0_@capacitor+core@3.6.0:
+    resolution: {integrity: sha512-X6n0OLy7BE3c6qfVuL7UYyq/aIwEsqIAqtyDOwMdj5k+P1rLQVsGaWERXUtC0BGeoKBD5YgbWiyKwAwg5Spjdg==}
+    peerDependencies:
+      '@capacitor/core': ^3.6.0
+    dependencies:
+      '@capacitor/core': 3.6.0
+    dev: false
 
   /@capacitor/app/1.1.1_@capacitor+core@3.6.0:
     resolution: {integrity: sha512-8ADkldHnoE1xkWvPUsGlERVGm6/Zvcxy6hCI80AxydIKyaCG7kbDAvUclebbnw/eFRxj2zBoVatGLjmJNvTbYw==}
@@ -4523,6 +4539,15 @@ packages:
   /escape-string-regexp/4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+    dev: true
+
+  /eslint-config-prettier/8.5.0_eslint@7.32.0:
+    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 7.32.0
     dev: true
 
   /eslint-import-resolver-node/0.3.6:
@@ -7751,6 +7776,12 @@ packages:
   /prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+    dev: true
+
+  /prettier/2.7.1:
+    resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /pretty-bytes/5.6.0:

@@ -1,0 +1,6 @@
+{
+	"appId": "me.dnery.raiju",
+	"appName": "raiju-app",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'strategy-tab',
+  selector: 'app-strategy-tab',
   templateUrl: 'strategy-tab.page.html',
   styleUrls: ['strategy-tab.page.scss'],
 })
-export class StrategyTab {
+export class StrategyTabComponent {
   constructor() {}
 }

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { StrategyTab } from './strategy-tab.page';
+import { StrategyTabComponent } from './strategy-tab.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: StrategyTab,
+    component: StrategyTabComponent,
   },
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class Tab1PageRoutingModule {}
+export class StrategyTabPageRoutingModule {}
