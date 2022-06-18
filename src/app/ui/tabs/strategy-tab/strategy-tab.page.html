@@ -1,3 +1,31 @@
 <ion-content [fullscreen]="true">
-  <app-explore-container name="Strategy"></app-explore-container>
+  <div class="main-content">
+    <div id="info-header">
+      <img src="assets/raiju_branco_sm.png" alt="" />
+      <!-- <div id="bt-info">
+        <strong>test {{ name }}</strong>
+      </div> -->
+      <ion-button (click)="test()" [color]="isConnected ? 'success' : 'danger'">
+        <ion-icon name="bluetooth"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div id="strategy-selection">
+      <ion-item>
+        <ion-label position="stacked">pre-strategy</ion-label>
+        <ion-select (ionChange)="onSelectPreStrategy($event)">
+          <ion-select-option *ngFor="let strategy of strategies" [value]="strategy">{{ strategy }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">strategy</ion-label>
+        <ion-select (ionChange)="onSelectStrategy($event)">
+          <ion-select-option *ngFor="let strategy of strategies" [value]="strategy">{{ strategy }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-button [disabled]="!isConnected" (click)="send()">Send</ion-button>
+    </div>
+  </div>
 </ion-content>

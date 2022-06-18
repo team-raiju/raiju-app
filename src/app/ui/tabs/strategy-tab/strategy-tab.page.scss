@@ -1,0 +1,42 @@
+.main-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#info-header {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+
+    img {
+        margin-right: 1em;
+        max-width: 30vw;
+    }
+
+    ion-button {
+        margin-left: auto;
+    }
+}
+
+#bt-info {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+#strategy-selection {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex: 1;
+    padding: 1em;
+
+    ion-item {
+        border-radius: 50px;
+    }
+
+    ion-button {
+        align-self: center;
+    }
+}
