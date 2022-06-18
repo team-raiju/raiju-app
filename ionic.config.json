@@ -1,0 +1,8 @@
+{
+  "name": "raiju-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "4594c142"
+}
