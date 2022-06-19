@@ -2,30 +2,67 @@
   <div class="main-content">
     <div id="info-header">
       <img src="assets/raiju_branco_sm.png" alt="" />
-      <!-- <div id="bt-info">
-        <strong>test {{ name }}</strong>
-      </div> -->
+      <div id="bt-info"></div>
       <ion-button (click)="test()" [color]="isConnected ? 'success' : 'danger'">
         <ion-icon name="bluetooth"></ion-icon>
       </ion-button>
     </div>
 
     <div id="strategy-selection">
-      <ion-item>
-        <ion-label position="stacked">pre-strategy</ion-label>
-        <ion-select (ionChange)="onSelectPreStrategy($event)">
-          <ion-select-option *ngFor="let strategy of strategies" [value]="strategy">{{ strategy }}</ion-select-option>
-        </ion-select>
-      </ion-item>
+      <ion-card>
+        <ion-card-header>
+          <ion-item>
+            <ion-card-title>strategies</ion-card-title>
+            <ion-button slot="end" fill="clear" [disabled]="!isConnected" (click)="sendStrategies()" color="success"
+              ><ion-icon name="send"></ion-icon
+            ></ion-button>
+          </ion-item>
+        </ion-card-header>
 
-      <ion-item>
-        <ion-label position="stacked">strategy</ion-label>
-        <ion-select (ionChange)="onSelectStrategy($event)">
-          <ion-select-option *ngFor="let strategy of strategies" [value]="strategy">{{ strategy }}</ion-select-option>
-        </ion-select>
-      </ion-item>
+        <ion-item>
+          <ion-label>pre-strategy</ion-label>
+          <ion-select (ionChange)="onSelectPreStrategy($event)">
+            <ion-select-option *ngFor="let strategy of strategies" [value]="strategy.id"
+              >{{ strategy.name }}</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
 
-      <ion-button [disabled]="!isConnected" (click)="send()">Send</ion-button>
+        <ion-item>
+          <ion-label>strategy</ion-label>
+          <ion-select (ionChange)="onSelectStrategy($event)">
+            <ion-select-option *ngFor="let strategy of strategies" [value]="strategy.id"
+              >{{ strategy.name }}</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-item>
+            <ion-card-title>info</ion-card-title>
+            <ion-button slot="end" fill="clear" [disabled]="!isConnected" (click)="resquestInfo()" color="success"
+              ><ion-icon name="sync-circle"></ion-icon
+            ></ion-button>
+          </ion-item>
+        </ion-card-header>
+
+        <ion-item>
+          <ion-label>state</ion-label>
+          <ion-badge slot="end">{{ currentState ?? "?" }}</ion-badge>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>pre-strategy</ion-label>
+          <ion-badge slot="end">{{ currentPreStrategy ?? "?" }}</ion-badge>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>strategy</ion-label>
+          <ion-badge slot="end">{{ currentStrategy ?? "?" }}</ion-badge>
+        </ion-item>
+      </ion-card>
     </div>
   </div>
 </ion-content>

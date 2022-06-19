@@ -15,28 +15,36 @@
     }
 
     ion-button {
-        margin-left: auto;
+        // margin-left: 1em;
     }
 }
 
 #bt-info {
     display: flex;
     flex-direction: column;
-    align-self: center;
+    // align-self: center;
+    flex: 1;
+
+    ion-item {
+        --background: transparent;
+        --min-height: unset;
+        --border-style: unset;
+    }
 }
 
 #strategy-selection {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    // justify-content: space-evenly;
     flex: 1;
     padding: 1em;
 
-    ion-item {
-        border-radius: 50px;
-    }
+    ion-card-header ion-item {
+        --padding-start: 0;
+        --inner-padding-end: 0;
 
-    ion-button {
-        align-self: center;
+        ion-button {
+            font-size: 18px;
+        }
     }
 }
