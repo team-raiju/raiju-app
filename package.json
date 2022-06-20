@@ -1,8 +1,7 @@
 {
   "name": "raiju-app",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Daniel Nery <danielnso97@gmail.com>",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -67,6 +66,5 @@
     "protractor": "~7.0.0",
     "ts-node": "~10.8.1",
     "typescript": "~4.7.4"
-  },
-  "description": "An Ionic project"
+  }
 }

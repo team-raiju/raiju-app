@@ -1,37 +1,3 @@
-.main-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-#info-header {
-    display: flex;
-    flex-direction: row;
-    padding: 1em;
-
-    img {
-        margin-right: 1em;
-        max-width: 30vw;
-    }
-
-    ion-button {
-        // margin-left: 1em;
-    }
-}
-
-#bt-info {
-    display: flex;
-    flex-direction: column;
-    // align-self: center;
-    flex: 1;
-
-    ion-item {
-        --background: transparent;
-        --min-height: unset;
-        --border-style: unset;
-    }
-}
-
 #strategy-selection {
     display: flex;
     flex-direction: column;
@@ -42,9 +8,5 @@
     ion-card-header ion-item {
         --padding-start: 0;
         --inner-padding-end: 0;
-
-        ion-button {
-            font-size: 18px;
-        }
     }
 }

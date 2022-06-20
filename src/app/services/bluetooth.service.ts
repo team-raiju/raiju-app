@@ -6,6 +6,7 @@ import {
   dataViewToText,
   numbersToDataView,
 } from "@capacitor-community/bluetooth-le";
+import { StorageService } from "./storage.service";
 
 const RXTX_SERVICE = "0000ffe0-0000-1000-8000-00805f9b34fb";
 const RXTX_CHARACTERISTIC = "0000ffe1-0000-1000-8000-00805f9b34fb";
@@ -17,7 +18,7 @@ export class BluetoothService {
   // private scanresults: ScanResult[] = [];
   private connectedDevice?: BleDevice = null;
 
-  constructor() {}
+  constructor(private storageService: StorageService) {}
 
   private get deviceId() {
     return this.connectedDevice?.deviceId;
@@ -37,6 +38,7 @@ export class BluetoothService {
       await BleClient.connect(this.deviceId, onDisconnect);
 
       console.log("connected to:", this.deviceId, this.connectedDevice.name);
+      this.storageService.addKnownDevice(this.deviceId);
 
       await BleClient.startNotifications(this.deviceId, RXTX_SERVICE, RXTX_CHARACTERISTIC, (v) => {
         if (onMessage) {

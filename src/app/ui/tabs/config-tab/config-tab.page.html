@@ -1,0 +1,126 @@
+<ion-content [fullscreen]="true">
+  <div class="main-content">
+    <app-logo-and-bt-header></app-logo-and-bt-header>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>generic params</ion-card-title>
+      </ion-card-header>
+
+      <ion-item>
+        <ion-label position="stacked">enabled distance sensors</ion-label>
+        <ion-grid>
+          <ion-row>
+            <ion-button
+              *ngFor="let sensor of distanceSensors"
+              (click)="toggleDistanceSensor(sensor)"
+              [color]="isDistanceSensorEnabled(sensor) ? 'success' : 'danger'"
+              >{{sensor}}</ion-button
+            >
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">enabled line sensors</ion-label>
+        <ion-grid>
+          <ion-row>
+            <ion-button
+              *ngFor="let sensor of lineSensors"
+              (click)="toggleLineSensor(sensor)"
+              [color]="isLineSensorEnabled(sensor) ? 'success' : 'danger'"
+              >{{sensor}}</ion-button
+            >
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>max motor speed</ion-label>
+        <ion-input
+          class="ion-text-right"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          max="100"
+          step="any"
+          placeholder="0 - 100"
+          [(ngModel)]="maxMotorSpeed"
+        ></ion-input>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>strategy params</ion-card-title>
+      </ion-card-header>
+
+      <ion-item>
+        <ion-label>reverse speed</ion-label>
+        <ion-input
+          class="ion-text-right"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          max="100"
+          placeholder="0 - 100"
+          [(ngModel)]="reverseSpeed"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>reverse time (ms)</ion-label>
+        <ion-input
+          class="ion-text-right"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          max="255"
+          placeholder="0 - 255"
+          [(ngModel)]="reverseTime"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>turn speed</ion-label>
+        <ion-input
+          class="ion-text-right"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          max="100"
+          placeholder="0 - 100"
+          [(ngModel)]="turnSpeed"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>turn time (ms)</ion-label>
+        <ion-input
+          class="ion-text-right"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          max="255"
+          placeholder="0 - 255"
+          [(ngModel)]="turnTime"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>step wait time (ms)</ion-label>
+        <ion-input
+          class="ion-text-right"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          max="255"
+          placeholder="0 - 255"
+          [(ngModel)]="stepWaitTime"
+        ></ion-input>
+      </ion-item>
+    </ion-card>
+
+    <ion-button id="send-button">Send</ion-button>
+  </div>
+</ion-content>

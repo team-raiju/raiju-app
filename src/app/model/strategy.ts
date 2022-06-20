@@ -1,3 +1,3 @@
 export class Strategy {
-  constructor(readonly id: number, readonly name: string) {}
+  constructor(readonly id: number, public name: string) {}
 }

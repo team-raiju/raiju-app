@@ -1,56 +1,59 @@
 <ion-content [fullscreen]="true">
-  <div class="main-content">
-    <div id="info-header">
-      <img src="assets/raiju_branco_sm.png" alt="" />
-      <div id="bt-info"></div>
-      <ion-button (click)="test()" [color]="isConnected ? 'success' : 'danger'">
-        <ion-icon name="bluetooth"></ion-icon>
-      </ion-button>
-    </div>
-
-    <div id="strategy-selection">
-      <ion-card>
-        <ion-card-header>
-          <ion-item>
-            <ion-card-title>strategies</ion-card-title>
-            <ion-button slot="end" fill="clear" [disabled]="!isConnected" (click)="sendStrategies()" color="success"
-              ><ion-icon name="send"></ion-icon
-            ></ion-button>
-          </ion-item>
-        </ion-card-header>
-
+  <app-logo-and-bt-header></app-logo-and-bt-header>
+  <div id="strategy-selection">
+    <ion-card>
+      <ion-card-header>
         <ion-item>
-          <ion-label>pre-strategy</ion-label>
-          <ion-select (ionChange)="onSelectPreStrategy($event)">
-            <ion-select-option *ngFor="let strategy of strategies" [value]="strategy.id"
-              >{{ strategy.name }}</ion-select-option
-            >
-          </ion-select>
+          <ion-card-title>strategies</ion-card-title>
+          <ion-button slot="end" fill="clear" [disabled]="!isConnected" (click)="sendStrategies()" color="success"
+            ><ion-icon name="send" slot="icon-only"></ion-icon
+          ></ion-button>
+        </ion-item>
+      </ion-card-header>
+
+      <ion-item>
+        <ion-label>pre-strategy</ion-label>
+        <ion-select (ionChange)="onSelectPreStrategy($event)">
+          <ion-select-option *ngFor="let strategy of strategies" [value]="strategy.id"
+            >{{ strategy.name }}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>strategy</ion-label>
+        <ion-select (ionChange)="onSelectStrategy($event)">
+          <ion-select-option *ngFor="let strategy of strategies" [value]="strategy.id"
+            >{{ strategy.name }}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-item>
+          <ion-card-title>info</ion-card-title>
+          <ion-button slot="end" fill="clear" [disabled]="!isConnected" (click)="resquestInfo()" color="success"
+            ><ion-icon name="sync-circle" slot="icon-only"></ion-icon
+          ></ion-button>
+        </ion-item>
+      </ion-card-header>
+
+      <ion-item-group>
+        <ion-item-divider>sensors</ion-item-divider>
+        <ion-item>
+          <ion-label>distance</ion-label>
         </ion-item>
 
         <ion-item>
-          <ion-label>strategy</ion-label>
-          <ion-select (ionChange)="onSelectStrategy($event)">
-            <ion-select-option *ngFor="let strategy of strategies" [value]="strategy.id"
-              >{{ strategy.name }}</ion-select-option
-            >
-          </ion-select>
+          <ion-label>line</ion-label>
         </ion-item>
-      </ion-card>
 
-      <ion-card>
-        <ion-card-header>
-          <ion-item>
-            <ion-card-title>info</ion-card-title>
-            <ion-button slot="end" fill="clear" [disabled]="!isConnected" (click)="resquestInfo()" color="success"
-              ><ion-icon name="sync-circle"></ion-icon
-            ></ion-button>
-          </ion-item>
-        </ion-card-header>
-
+        <ion-item-divider>state</ion-item-divider>
         <ion-item>
           <ion-label>state</ion-label>
-          <ion-badge slot="end">{{ currentState ?? "?" }}</ion-badge>
+          <ion-badge slot="end">{{ botState?.currentState ?? "?" }}</ion-badge>
         </ion-item>
 
         <ion-item>
@@ -62,7 +65,33 @@
           <ion-label>strategy</ion-label>
           <ion-badge slot="end">{{ currentStrategy ?? "?" }}</ion-badge>
         </ion-item>
-      </ion-card>
-    </div>
+
+        <ion-item-divider>parameters</ion-item-divider>
+        <ion-item>
+          <ion-label>max motor speed</ion-label>
+          <ion-badge slot="end">{{ botState?.maxMotorSpeed ?? "?" }}</ion-badge>
+        </ion-item>
+        <ion-item>
+          <ion-label>reverse speed</ion-label>
+          <ion-badge slot="end">{{ botState?.reverseSpeed ?? "?" }}</ion-badge>
+        </ion-item>
+        <ion-item>
+          <ion-label>reverse time</ion-label>
+          <ion-badge slot="end">{{ botState?.reverseTimeMs ?? "?" }}</ion-badge>
+        </ion-item>
+        <ion-item>
+          <ion-label>turn speed</ion-label>
+          <ion-badge slot="end">{{ botState?.turnSpeed ?? "?" }}</ion-badge>
+        </ion-item>
+        <ion-item>
+          <ion-label>turn time</ion-label>
+          <ion-badge slot="end">{{ botState?.turnTimeMs ?? "?" }}</ion-badge>
+        </ion-item>
+        <ion-item>
+          <ion-label>step time</ion-label>
+          <ion-badge slot="end">{{ botState?.stepWaitTimeMs ?? "?" }}</ion-badge>
+        </ion-item>
+      </ion-item-group>
+    </ion-card>
   </div>
 </ion-content>

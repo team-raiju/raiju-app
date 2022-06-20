@@ -2,56 +2,48 @@ import { ChangeDetectorRef, Component } from "@angular/core";
 import { ToastController } from "@ionic/angular";
 import { Strategy } from "src/app/model/strategy";
 import { BluetoothService } from "src/app/services/bluetooth.service";
+import { BotState, RaijuService } from "src/app/services/raiju.service";
+import { StorageService } from "src/app/services/storage.service";
 
 @Component({
   selector: "app-strategy-tab",
   templateUrl: "strategy-tab.page.html",
   styleUrls: ["strategy-tab.page.scss"],
 })
-export class StrategyTabComponent {
-  readonly strategies: Strategy[] = [new Strategy(0x01, "little steps"), new Strategy(0x02, "star")];
+export class StrategyTabPage {
+  strategies: Strategy[] = [];
   selectedPreStrategyId = 0;
   selectedStrategyId = 0;
 
-  currentState: string = null;
+  botState: BotState;
   currentPreStrategy: string = null;
   currentStrategy: string = null;
 
   constructor(
-    private bleService: BluetoothService,
     private toastController: ToastController,
+    private raijuService: RaijuService,
+    private storageService: StorageService,
     private changeDetector: ChangeDetectorRef
-  ) {}
+  ) {
+    this.storageService
+      .getStrategies()
+      .then((s) => (this.strategies = s))
+      .catch((e) => console.log("StrategyTabComponent()", e));
 
-  get isConnected() {
-    return this.bleService.isConnected();
-  }
+    this.raijuService.subscribe((state: BotState) => {
+      this.botState = { ...state };
+      this.currentPreStrategy = this.strategies.find((s) => s.id === state.preStrategy)?.name;
+      this.currentStrategy = this.strategies.find((s) => s.id === state.strategy)?.name;
 
-  async test() {
-    try {
-      if (this.isConnected) {
-        await this.bleService.disconnect();
-        return;
-      }
-
-      await this.bleService.searchAndConnect(
-        (message) => this.parseMessage(message),
-        (id) => {
-          console.log(`Disconnected from ${id}`);
-          this.showToast("Disconnected from device!");
-        }
-      );
-    } catch (e) {
-      console.error("bleService.searchAndConnect", e as Error);
-      void (e && this.showToast(JSON.stringify(e)));
-    }
+      // this.changeDetector.detectChanges();
+    });
   }
 
   async sendStrategies() {
     try {
-      await this.bleService.send([this.selectedPreStrategyId, this.selectedStrategyId]);
+      await this.raijuService.applyConfig();
     } catch (e) {
-      console.error("bleService.send", e as Error);
+      console.error("sendStrategies", e as Error);
       void (e && this.showToast(JSON.stringify(e)));
     }
   }
@@ -64,29 +56,6 @@ export class StrategyTabComponent {
   onSelectStrategy(event: CustomEvent<{ value: number }>) {
     console.log("selected strategy", event.detail.value);
     this.selectedStrategyId = event.detail.value;
-  }
-
-  private parseMessage(message: string) {
-    console.log("Message received", message);
-
-    if (!message.includes(":")) {
-      console.warn(`Receive invalid message: ${message}`);
-      return;
-    }
-
-    const [type, ...value] = message.split(":");
-
-    if (type === "state") {
-      this.currentState = value[0];
-    } else if (type === "str") {
-      this.currentPreStrategy = this.strategies.find((s) => s.id === parseInt(value[0], 10))?.name;
-      this.currentStrategy = this.strategies.find((s) => s.id === parseInt(value[1], 10))?.name;
-    } else {
-      console.warn(`Receive invalid message: ${message}`);
-      return;
-    }
-
-    this.changeDetector.detectChanges();
   }
 
   private showToast(msg: string) {

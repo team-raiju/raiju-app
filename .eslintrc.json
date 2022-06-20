@@ -24,6 +24,7 @@
         "prettier"
       ],
       "rules": {
+        "no-bitwise": "off",
         "@angular-eslint/component-class-suffix": [
           "error",
           {
@@ -49,7 +50,55 @@
             "style": "camelCase"
           }
         ],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": [
+              "public-static-field",
+              "public-field",
+              "protected-static-field",
+              "protected-field",
+              "private-static-field",
+              "private-field",
+              // Constructors
+              "public-constructor",
+              "protected-constructor",
+              "private-constructor",
+              // Getters & Setters
+              [
+                "public-get",
+                "public-set"
+              ],
+              [
+                "protected-get",
+                "protected-set"
+              ],
+              [
+                "private-get",
+                "private-set"
+              ],
+              // Index signatures
+              "signature",
+              // Methods
+              "public-static-method",
+              "public-method",
+              "protected-static-method",
+              "protected-method",
+              "private-static-method",
+              "private-method"
+            ]
+          }
+        ],
+        "@typescript-eslint/adjacent-overload-signatures": "off",
         "@typescript-eslint/no-floating-promises": "error"
+      }
+    },
+    {
+      "files": [
+        "*.spec.ts "
+      ],
+      "rules": {
+        "@typescript-eslint/no-floating-promises": "off"
       }
     },
     {

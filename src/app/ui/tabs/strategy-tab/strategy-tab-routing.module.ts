@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { StrategyTabComponent } from './strategy-tab.page';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { StrategyTabPage } from "./strategy-tab.page";
 
 const routes: Routes = [
   {
-    path: '',
-    component: StrategyTabComponent,
+    path: "",
+    component: StrategyTabPage,
   },
 ];
 

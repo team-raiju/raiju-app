@@ -1,27 +1,31 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { TabsPage } from './tabs.page';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { TabsPage } from "./tabs.page";
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: "tabs",
     component: TabsPage,
     children: [
       {
-        path: 'strategy',
-        loadChildren: () => import('./strategy-tab/strategy-tab.module').then((m) => m.StrategyTabModule),
+        path: "strategy",
+        loadChildren: () => import("./strategy-tab/strategy-tab.module").then((m) => m.StrategyTabPageModule),
       },
       {
-        path: '',
-        redirectTo: '/tabs/strategy',
-        pathMatch: 'full',
+        path: "config",
+        loadChildren: () => import("./config-tab/config-tab.module").then((m) => m.ConfigTabPageModule),
+      },
+      {
+        path: "",
+        redirectTo: "/tabs/strategy",
+        pathMatch: "full",
       },
     ],
   },
   {
-    path: '',
-    redirectTo: '/tabs/strategy',
-    pathMatch: 'full',
+    path: "",
+    redirectTo: "/tabs/strategy",
+    pathMatch: "full",
   },
 ];
 
