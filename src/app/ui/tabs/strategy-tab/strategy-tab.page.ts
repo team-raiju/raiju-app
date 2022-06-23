@@ -39,6 +39,10 @@ export class StrategyTabPage {
     });
   }
 
+  get isConnected() {
+    return this.raijuService.isConnected;
+  }
+
   async sendStrategies() {
     try {
       await this.raijuService.applyConfig();
@@ -48,15 +52,17 @@ export class StrategyTabPage {
     }
   }
 
-  onSelectPreStrategy(event: CustomEvent<{ value: number }>) {
-    console.log("selected pre-strategy", event.detail.value);
-    this.selectedPreStrategyId = event.detail.value;
-  }
+  async requestInfo() {}
 
-  onSelectStrategy(event: CustomEvent<{ value: number }>) {
-    console.log("selected strategy", event.detail.value);
-    this.selectedStrategyId = event.detail.value;
-  }
+  // onSelectPreStrategy(event: CustomEvent<{ value: number }>) {
+  //   console.log("selected pre-strategy", event.detail.value);
+  //   this.selectedPreStrategyId = event.detail.value;
+  // }
+
+  // onSelectStrategy(event: Event) {
+  //   console.log("selected strategy", event.detail.value);
+  //   this.selectedStrategyId = event.detail.value;
+  // }
 
   private showToast(msg: string) {
     this.toastController
