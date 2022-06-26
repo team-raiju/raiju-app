@@ -1,10 +1,14 @@
 <ion-content [fullscreen]="true">
-  <div class="main-content">
-    <app-logo-and-bt-header></app-logo-and-bt-header>
-
+  <app-logo-and-bt-header></app-logo-and-bt-header>
+  <div id="config">
     <ion-card>
       <ion-card-header>
-        <ion-card-title>generic params</ion-card-title>
+        <ion-item>
+          <ion-card-title>generic params</ion-card-title>
+          <ion-button slot="end" fill="clear" (click)="saveConfig()"
+            ><ion-icon name="save" slot="icon-only"></ion-icon
+          ></ion-button>
+        </ion-item>
       </ion-card-header>
 
       <ion-item>
@@ -121,6 +125,8 @@
       </ion-item>
     </ion-card>
 
-    <ion-button id="send-button">Send</ion-button>
+    <div class="send-button">
+      <ion-button (click)="sendData()">Send</ion-button>
+    </div>
   </div>
 </ion-content>

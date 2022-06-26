@@ -1,9 +1,15 @@
-.main-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
+#config {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1em;
 
-#send-button {
+  ion-card-header ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+  }
+
+  .send-button {
     align-self: center;
+  }
 }

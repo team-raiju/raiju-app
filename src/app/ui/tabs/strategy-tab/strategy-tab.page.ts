@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { ToastController } from "@ionic/angular";
 import { Strategy } from "src/app/model/strategy";
-import { BluetoothService } from "src/app/services/bluetooth.service";
 import { BotState, RaijuService } from "src/app/services/raiju.service";
 import { StorageService } from "src/app/services/storage.service";
 
@@ -28,15 +27,19 @@ export class StrategyTabPage {
     this.storageService
       .getStrategies()
       .then((s) => (this.strategies = s))
-      .catch((e) => console.log("StrategyTabComponent()", e));
+      .catch((e) => console.error("StrategyTabComponent()", e));
 
     this.raijuService.subscribe((state: BotState) => {
       this.botState = { ...state };
       this.currentPreStrategy = this.strategies.find((s) => s.id === state.preStrategy)?.name;
       this.currentStrategy = this.strategies.find((s) => s.id === state.strategy)?.name;
 
-      // this.changeDetector.detectChanges();
+      this.changeDetector.detectChanges();
     });
+  }
+
+  get isConnected() {
+    return this.raijuService.isConnected;
   }
 
   async sendStrategies() {
@@ -48,14 +51,19 @@ export class StrategyTabPage {
     }
   }
 
-  onSelectPreStrategy(event: CustomEvent<{ value: number }>) {
-    console.log("selected pre-strategy", event.detail.value);
-    this.selectedPreStrategyId = event.detail.value;
+  async requestInfo() {
+    console.log(this.raijuService.config);
+    return;
   }
 
-  onSelectStrategy(event: CustomEvent<{ value: number }>) {
+  onSelectPreStrategy(event: any) {
+    console.log("selected pre-strategy", event.detail.value);
+    this.raijuService.config.preStrategy = event.detail.value;
+  }
+
+  onSelectStrategy(event: any) {
     console.log("selected strategy", event.detail.value);
-    this.selectedStrategyId = event.detail.value;
+    this.raijuService.config.strategy = event.detail.value;
   }
 
   private showToast(msg: string) {

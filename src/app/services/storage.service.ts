@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Storage } from "@capacitor/storage";
 import { Strategy } from "../model/strategy";
+import { RaijuConfig } from "./raiju.service";
 
 enum StorageKeys {
   knownDeviceIds = "KNOWN_BLE_DEVICE_IDS",
   strategies = "STRATEGIES",
+  config = "CONFIG",
 }
 
 @Injectable({
@@ -15,6 +17,7 @@ export class StorageService {
 
   private strategies: Strategy[] = [];
   private knownDevices: string[] = [];
+  private botConfig: RaijuConfig;
 
   constructor() {}
 
@@ -37,6 +40,11 @@ export class StorageService {
     this.setValue(StorageKeys.strategies, this.strategies).catch((e) => console.error("addStrategy", e));
   }
 
+  public setRaijuConfig(config: RaijuConfig) {
+    this.botConfig = { ...config };
+    this.setValue(StorageKeys.config, this.botConfig).catch((e) => console.error("setConfig", e));
+  }
+
   public async getKnowDevices() {
     if (this.knownDevices.length === 0) {
       this.knownDevices = await this.getValue<string[]>(StorageKeys.knownDeviceIds);
@@ -47,7 +55,7 @@ export class StorageService {
 
   public async getStrategies() {
     if (this.strategies.length === 0) {
-      this.strategies = await this.getValue<Strategy[]>(StorageKeys.strategies);
+      this.strategies = (await this.getValue<Strategy[]>(StorageKeys.strategies)) ?? [];
       if (this.strategies.length === 0) {
         this.strategies = [...this.defaultStrategies];
         await this.setValue(StorageKeys.strategies, this.strategies);
@@ -55,6 +63,14 @@ export class StorageService {
     }
 
     return [...this.strategies];
+  }
+
+  public async getRaijuConfig() {
+    if (this.botConfig == null) {
+      this.botConfig = await this.getValue<RaijuConfig>(StorageKeys.config);
+    }
+
+    return this.botConfig && { ...this.botConfig };
   }
 
   private async getValue<T>(key: StorageKeys): Promise<T> {

@@ -1,7 +1,8 @@
 import { EventEmitter, Injectable } from "@angular/core";
 import { BluetoothService } from "./bluetooth.service";
+import { StorageService } from "./storage.service";
 
-type RaijuConfig = {
+export type RaijuConfig = {
   enabledDistanceSensors: number;
   enabledLineSensors: number;
   reverseSpeed: number;
@@ -25,9 +26,22 @@ export type BotState = {
 export class RaijuService extends EventEmitter {
   botState: BotState;
 
-  private config: RaijuConfig = {
-    enabledDistanceSensors: 0b00011111,
-    enabledLineSensors: 0b00001111,
+  config: RaijuConfig = {
+    enabledDistanceSensors: 0,
+    enabledLineSensors: 0,
+    reverseSpeed: 0,
+    reverseTimeMs: 0,
+    turnSpeed: 0,
+    turnTimeMs: 0,
+    stepWaitTimeMs: 0,
+    preStrategy: 0,
+    strategy: 0,
+    maxMotorSpeed: 0,
+  };
+
+  private readonly defaultConfig: RaijuConfig = {
+    enabledDistanceSensors: 0xff,
+    enabledLineSensors: 0xff,
     reverseSpeed: 100,
     reverseTimeMs: 50,
     turnSpeed: 100,
@@ -38,9 +52,16 @@ export class RaijuService extends EventEmitter {
     maxMotorSpeed: 100,
   };
 
-  constructor(private bleService: BluetoothService) {
+  constructor(private bleService: BluetoothService, private storageService: StorageService) {
     super();
-    this.botState = { ...this.config, currentState: null };
+
+    this.storageService
+      .getRaijuConfig()
+      .then((c) => {
+        this.config = c ?? { ...this.defaultConfig };
+        this.botState = { ...this.config, currentState: null };
+      })
+      .catch((e) => console.error(e));
   }
 
   get isConnected() {
@@ -59,6 +80,10 @@ export class RaijuService extends EventEmitter {
         console.log(`Disconnected from ${id}`);
       }
     );
+  }
+
+  async saveConfig() {
+    this.storageService.setRaijuConfig(this.config);
   }
 
   async applyConfig() {
@@ -91,7 +116,7 @@ export class RaijuService extends EventEmitter {
     } else if (type === "step") {
       this.botState.stepWaitTimeMs = parseInt(value[0], 10);
     } else {
-      console.warn(`Receive invalid message: ${message}`);
+      console.warn(`Received invalid message: ${message}`);
       return;
     }
 

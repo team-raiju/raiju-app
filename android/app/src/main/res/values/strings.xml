@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">raiju-app</string>
+    <string name="app_name">Raiju</string>
     <string name="title_activity_main">raiju-app</string>
     <string name="package_name">me.dnery.raiju</string>
     <string name="custom_url_scheme">me.dnery.raiju</string>
