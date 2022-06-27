@@ -1,5 +1,6 @@
 import { EventEmitter, Injectable } from "@angular/core";
 import { BluetoothService } from "./bluetooth.service";
+import { LoggingService } from "./logging.service";
 import { StorageService } from "./storage.service";
 
 export type RaijuConfig = {
@@ -52,7 +53,11 @@ export class RaijuService extends EventEmitter {
     maxMotorSpeed: 100,
   };
 
-  constructor(private bleService: BluetoothService, private storageService: StorageService) {
+  constructor(
+    private bleService: BluetoothService,
+    private storageService: StorageService,
+    private logger: LoggingService
+  ) {
     super();
 
     this.storageService
@@ -61,7 +66,7 @@ export class RaijuService extends EventEmitter {
         this.config = c ?? { ...this.defaultConfig };
         this.botState = { ...this.config, currentState: null };
       })
-      .catch((e) => console.error(e));
+      .catch((e) => this.logger.error(e));
   }
 
   get isConnected() {
@@ -77,7 +82,7 @@ export class RaijuService extends EventEmitter {
     await this.bleService.searchAndConnect(
       (message) => this.parseMessage(message),
       (id) => {
-        console.log(`Disconnected from ${id}`);
+        this.logger.warn(`Disconnected from ${id}`);
       }
     );
   }
@@ -87,14 +92,27 @@ export class RaijuService extends EventEmitter {
   }
 
   async applyConfig() {
-    await this.bleService.send(this.configToPacket());
+    try {
+      await this.bleService.send(this.configToPacket());
+    } catch (e) {
+      this.logger.error(`bleService.send: ${e}`);
+    }
+  }
+
+  async requestInfo() {
+    this.logger.info("requesting bot info");
+    try {
+      await this.bleService.send(this.configToPacket().map(() => 0xfe));
+    } catch (e) {
+      this.logger.error(`bleService.send: ${e}`);
+    }
   }
 
   private parseMessage(message: string) {
-    console.log("message received:", message);
+    this.logger.info(`message received: ${message}`);
 
     if (!message.includes(":")) {
-      console.warn("received invalid message:", message);
+      this.logger.warn("received invalid message:");
       return;
     }
 
@@ -116,7 +134,7 @@ export class RaijuService extends EventEmitter {
     } else if (type === "step") {
       this.botState.stepWaitTimeMs = parseInt(value[0], 10);
     } else {
-      console.warn(`Received invalid message: ${message}`);
+      this.logger.warn("received invalid message");
       return;
     }
 

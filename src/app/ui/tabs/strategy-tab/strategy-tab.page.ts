@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { ToastController } from "@ionic/angular";
 import { Strategy } from "src/app/model/strategy";
+import { LoggingService } from "src/app/services/logging.service";
 import { BotState, RaijuService } from "src/app/services/raiju.service";
 import { StorageService } from "src/app/services/storage.service";
 
@@ -22,12 +23,13 @@ export class StrategyTabPage {
     private toastController: ToastController,
     private raijuService: RaijuService,
     private storageService: StorageService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private logger: LoggingService
   ) {
     this.storageService
       .getStrategies()
       .then((s) => (this.strategies = s))
-      .catch((e) => console.error("StrategyTabComponent()", e));
+      .catch((e) => this.logger.error(`StrategyTabComponent(): ${e}`));
 
     this.raijuService.subscribe((state: BotState) => {
       this.botState = { ...state };
@@ -46,23 +48,24 @@ export class StrategyTabPage {
     try {
       await this.raijuService.applyConfig();
     } catch (e) {
-      console.error("sendStrategies", e as Error);
+      this.logger.error(`sendStrategies: ${e}`);
       void (e && this.showToast(JSON.stringify(e)));
     }
   }
 
   async requestInfo() {
-    console.log(this.raijuService.config);
+    await this.raijuService.requestInfo();
+    this.logger.info(this.raijuService.config);
     return;
   }
 
   onSelectPreStrategy(event: any) {
-    console.log("selected pre-strategy", event.detail.value);
+    this.logger.info(`selected pre-strategy: ${event.detail.value}`);
     this.raijuService.config.preStrategy = event.detail.value;
   }
 
   onSelectStrategy(event: any) {
-    console.log("selected strategy", event.detail.value);
+    this.logger.info(`selected strategy: ${event.detail.value}`);
     this.raijuService.config.strategy = event.detail.value;
   }
 
@@ -74,7 +77,7 @@ export class StrategyTabPage {
       })
       .then((toast) => toast.present())
       .catch((e) => {
-        console.log("Error showing toast", e);
+        this.logger.error(`Error showing toast ${e}`);
         throw e;
       });
   }

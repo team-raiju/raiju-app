@@ -1,14 +1,17 @@
 #info-header {
+  display: flex;
+  flex-direction: row;
+  padding: 1em;
+
+  img {
+    margin-right: 1em;
+    max-width: 30vw;
+  }
+
+  .buttons {
+    margin-left: auto;
+
     display: flex;
-    flex-direction: row;
-    padding: 1em;
-
-    img {
-        margin-right: 1em;
-        max-width: 30vw;
-    }
-
-    ion-button {
-        margin-left: auto;
-    }
+    flex-direction: column;
+  }
 }

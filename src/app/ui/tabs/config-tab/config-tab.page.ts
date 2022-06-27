@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { ToastController } from "@ionic/angular";
+import { LoggingService } from "src/app/services/logging.service";
 import { RaijuService } from "src/app/services/raiju.service";
 
 @Component({
@@ -8,27 +9,29 @@ import { RaijuService } from "src/app/services/raiju.service";
   styleUrls: ["./config-tab.page.scss"],
 })
 export class ConfigTabPage {
-  distanceSensors = ["L", "FL", "F", "FR", "R"];
-  lineSensors = ["FL", "FR", "BL", "BR"];
+  readonly distanceSensors = ["L", "FL", "DL", "F", "DR", "FR", "R"];
+  readonly lineSensors = ["FL", "FR", "BL", "BR"];
 
   // This must match src/services/DistanceService.cpp in raiju-cpp
-  private distanceSensorMask = new Map([
+  private readonly distanceSensorMask = new Map([
     ["L", 1 << 0],
     ["FL", 1 << 1],
-    ["F", 1 << 2],
-    ["FR", 1 << 3],
-    ["R", 1 << 4],
+    ["DL", 1 << 2],
+    ["F", 1 << 3],
+    ["DR", 1 << 4],
+    ["FR", 1 << 5],
+    ["R", 1 << 6],
   ]);
 
   // This must match src/services/LineService.cpp in raiju-cpp
-  private lineSensorMask = new Map([
+  private readonly lineSensorMask = new Map([
     ["FL", 1 << 0],
     ["FR", 1 << 1],
     ["BL", 1 << 2],
     ["BR", 1 << 3],
   ]);
 
-  constructor(private raijuService: RaijuService, private toastController: ToastController) {}
+  constructor(private raijuService: RaijuService, private toastController: ToastController, private logger: LoggingService) {}
 
   get maxMotorSpeed() {
     return this.raijuService.config.maxMotorSpeed;
@@ -98,7 +101,7 @@ export class ConfigTabPage {
     try {
       await this.raijuService.applyConfig();
     } catch (e) {
-      console.error("sendStrategies", e as Error);
+      this.logger.error(`sendStrategies: ${e}`);
       void (e && this.showToast(JSON.stringify(e)));
     }
   }
@@ -115,7 +118,7 @@ export class ConfigTabPage {
       })
       .then((toast) => toast.present())
       .catch((e) => {
-        console.log("Error showing toast", e);
+        this.logger.error(`Error showing toast ${e}`);
         throw e;
       });
   }
