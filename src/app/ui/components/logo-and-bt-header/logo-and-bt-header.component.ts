@@ -25,6 +25,10 @@ export class LogoAndBtHeaderComponent {
     return this.logger.allLogs;
   }
 
+  clearLogs() {
+    this.logger.clear();
+  }
+
   showLogs(show: boolean) {
     this.isLogsOpen = show;
   }

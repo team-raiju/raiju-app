@@ -13,9 +13,6 @@ enum StorageKeys {
   providedIn: "root",
 })
 export class StorageService {
-  private readonly defaultStrategies: Strategy[] = [new Strategy(0x01, "little steps"), new Strategy(0x02, "star")];
-
-  private strategies: Strategy[] = [];
   private knownDevices: string[] = [];
   private botConfig: RaijuConfig;
 
@@ -26,18 +23,6 @@ export class StorageService {
       this.knownDevices.push(id);
       this.setValue(StorageKeys.knownDeviceIds, this.knownDevices).catch((e) => console.error("addStrategy", e));
     }
-  }
-
-  public addStrategy(id: number, name: string) {
-    const idx = this.strategies.findIndex((v) => v.id === id);
-
-    if (idx === -1) {
-      this.strategies.push(new Strategy(id, name));
-    } else {
-      this.strategies[idx].name = name;
-    }
-
-    this.setValue(StorageKeys.strategies, this.strategies).catch((e) => console.error("addStrategy", e));
   }
 
   public setRaijuConfig(config: RaijuConfig) {
@@ -51,18 +36,6 @@ export class StorageService {
     }
 
     return [...this.knownDevices];
-  }
-
-  public async getStrategies() {
-    if (this.strategies.length === 0) {
-      this.strategies = (await this.getValue<Strategy[]>(StorageKeys.strategies)) ?? [];
-      if (this.strategies.length === 0) {
-        this.strategies = [...this.defaultStrategies];
-        await this.setValue(StorageKeys.strategies, this.strategies);
-      }
-    }
-
-    return [...this.strategies];
   }
 
   public async getRaijuConfig() {

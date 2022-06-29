@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
-import { ToastController } from "@ionic/angular";
+import { ModalController, ToastController } from "@ionic/angular";
 import { Strategy } from "src/app/model/strategy";
 import { LoggingService } from "src/app/services/logging.service";
 import { BotState, RaijuService } from "src/app/services/raiju.service";
@@ -11,7 +11,6 @@ import { StorageService } from "src/app/services/storage.service";
   styleUrls: ["strategy-tab.page.scss"],
 })
 export class StrategyTabPage {
-  strategies: Strategy[] = [];
   selectedPreStrategyId = 0;
   selectedStrategyId = 0;
 
@@ -24,13 +23,9 @@ export class StrategyTabPage {
     private raijuService: RaijuService,
     private storageService: StorageService,
     private changeDetector: ChangeDetectorRef,
+    private modalCtrl: ModalController,
     private logger: LoggingService
   ) {
-    this.storageService
-      .getStrategies()
-      .then((s) => (this.strategies = s))
-      .catch((e) => this.logger.error(`StrategyTabComponent(): ${e}`));
-
     this.raijuService.subscribe((state: BotState) => {
       this.botState = { ...state };
       this.currentPreStrategy = this.strategies.find((s) => s.id === state.preStrategy)?.name;
@@ -42,6 +37,10 @@ export class StrategyTabPage {
 
   get isConnected() {
     return this.raijuService.isConnected;
+  }
+
+  get strategies() {
+    return this.raijuService.strategies;
   }
 
   async sendStrategies() {

@@ -16,7 +16,12 @@
         <ion-toolbar>
           <ion-title>Logs</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="showLogs(false)">Close</ion-button>
+            <ion-button (click)="clearLogs()">
+              <ion-icon name="trash"></ion-icon>
+            </ion-button>
+            <ion-button (click)="showLogs(false)">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>

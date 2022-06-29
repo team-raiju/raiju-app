@@ -60,4 +60,8 @@ export class LoggingService {
       message,
     });
   }
+
+  clear() {
+    this.allLogs = [];
+  }
 }

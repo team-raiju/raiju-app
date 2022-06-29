@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable } from "@angular/core";
+import { Strategy } from "../model/strategy";
 import { BluetoothService } from "./bluetooth.service";
 import { LoggingService } from "./logging.service";
 import { StorageService } from "./storage.service";
@@ -26,6 +27,7 @@ export type BotState = {
 })
 export class RaijuService extends EventEmitter {
   botState: BotState;
+  strategies: Strategy[] = [];
 
   config: RaijuConfig = {
     enabledDistanceSensors: 0,
@@ -133,6 +135,10 @@ export class RaijuService extends EventEmitter {
       this.botState.turnTimeMs = parseInt(value[1], 10);
     } else if (type === "step") {
       this.botState.stepWaitTimeMs = parseInt(value[0], 10);
+    } else if (type === "ss") {
+      const id = parseInt(value[0], 10);
+      const name = value[1];
+      this.addStrategy(id, name);
     } else {
       this.logger.warn("received invalid message");
       return;
@@ -160,5 +166,15 @@ export class RaijuService extends EventEmitter {
     packet.push(chk);
 
     return packet;
+  }
+
+  private addStrategy(id: number, name: string) {
+    const idx = this.strategies.findIndex((v) => v.id === id);
+
+    if (idx === -1) {
+      this.strategies.push(new Strategy(id, name));
+    } else {
+      this.strategies[idx].name = name;
+    }
   }
 }
