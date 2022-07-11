@@ -31,7 +31,11 @@ export class ConfigTabPage {
     ["BR", 1 << 3],
   ]);
 
-  constructor(private raijuService: RaijuService, private toastController: ToastController, private logger: LoggingService) {}
+  constructor(
+    private raijuService: RaijuService,
+    private toastController: ToastController,
+    private logger: LoggingService
+  ) {}
 
   get maxMotorSpeed() {
     return this.raijuService.config.maxMotorSpeed;
@@ -102,7 +106,16 @@ export class ConfigTabPage {
       await this.raijuService.applyConfig();
     } catch (e) {
       this.logger.error(`sendStrategies: ${e}`);
-      void (e && this.showToast(JSON.stringify(e)));
+      this.showToast(`${e}`);
+    }
+  }
+
+  async sendSwapRequest() {
+    try {
+      await this.raijuService.sendSwapRequest();
+    } catch (e) {
+      this.logger.error(`sendStrategies: ${e}`);
+      this.showToast(`${e}`);
     }
   }
 
@@ -119,7 +132,6 @@ export class ConfigTabPage {
       .then((toast) => toast.present())
       .catch((e) => {
         this.logger.error(`Error showing toast ${e}`);
-        throw e;
       });
   }
 }

@@ -101,6 +101,19 @@ export class RaijuService extends EventEmitter {
     }
   }
 
+  async sendSwapRequest() {
+    this.logger.info("sending swap state request");
+    try {
+      const packet = this.configToPacket().map(() => 0xff);
+      packet[0] = 0xfe;
+      packet[1] = 0xef;
+
+      await this.bleService.send(packet);
+    } catch (e) {
+      this.logger.error(`bleService.send: ${e}`);
+    }
+  }
+
   async requestInfo() {
     this.logger.info("requesting bot info");
     try {
